@@ -16,7 +16,7 @@ async def json_object_to_csv(json_object, destination):
         sanitized_json = json.dumps(json_object)
         loaded_json = json.loads(sanitized_json)
         headers = loaded_json[0].keys() if loaded_json[0] else ""
-        with open(destination, 'w') as file:
+        with open(destination, "w") as file:
             writer = csv.DictWriter(file, fieldnames=headers)
             writer.writeheader()
             for data in loaded_json:
