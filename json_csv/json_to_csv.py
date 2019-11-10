@@ -23,6 +23,8 @@ async def json_object_to_csv(json_object, destination):
                 writer.writerow(data)
     except IOError:
         print("Failed to convert json object to csv")
+    except Exception:
+        print("Fatal error occurred while converting json object to csv")
 
 
 async def json_file_to_csv(json_file_path, destination):
@@ -32,6 +34,8 @@ async def json_file_to_csv(json_file_path, destination):
         data.to_csv(destination, index=False)
     except IOError:
         print("Failed to convert json file to csv")
+    except Exception:
+        print("Fatal error occurred while converting json file to csv")
 
 
 loop = asyncio.get_event_loop()
