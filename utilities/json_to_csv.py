@@ -1,7 +1,6 @@
-import json
 import csv
+import json
 import pandas as pd
-import asyncio
 
 
 async def to_csv(json_object=None, json_file_path="", destination=""):
@@ -23,7 +22,7 @@ async def json_object_to_csv(json_object, destination):
                 writer.writerow(data)
     except IOError:
         print("Failed to convert json object to csv")
-    except Exception:
+    except:
         print("Fatal error occurred while converting json object to csv")
 
 
@@ -34,20 +33,5 @@ async def json_file_to_csv(json_file_path, destination):
         data.to_csv(destination, index=False)
     except IOError:
         print("Failed to convert json file to csv")
-    except Exception:
+    except:
         print("Fatal error occurred while converting json file to csv")
-
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(
-    to_csv(
-        json_object=[{"week": "1", "date": "01-01-1985", "unitSold": 100},
-                     {"week": "1", "date": "01-01-1986", "unitSold": 200}],
-        destination="../test.csv")
-)
-loop.run_until_complete(
-    to_csv(
-        json_file_path="../data.json",
-        destination="../data.csv")
-)
-loop.close()
