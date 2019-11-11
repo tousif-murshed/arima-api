@@ -7,6 +7,15 @@ app = Flask(__name__)
 csv_path = "./tmp/data.csv"
 
 
+@app.before_first_request
+def create_temp():
+    try:
+        cwd = os.getcwd()
+        os.mkdir("{}/tmp".format(cwd))
+    except IOError:
+        print("Unable to create tmp directory")
+
+
 @app.route("/")
 def health_check():
     return jsonify({"code": 200, "message": "arima api is up and running"}), 200
