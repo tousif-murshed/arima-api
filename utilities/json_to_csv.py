@@ -3,14 +3,14 @@ import json
 import pandas as pd
 
 
-async def to_csv(json_object=None, json_file_path="", destination=""):
+def to_csv(json_object=None, json_file_path="", destination=""):
     if json_object:
-        await json_object_to_csv(json_object, destination)
+        json_object_to_csv(json_object, destination)
     elif json_file_path:
-        await json_file_to_csv(json_file_path, destination)
+        json_file_to_csv(json_file_path, destination)
 
 
-async def json_object_to_csv(json_object, destination):
+def json_object_to_csv(json_object, destination):
     try:
         sanitized_json = json.dumps(json_object)
         loaded_json = json.loads(sanitized_json)
@@ -26,7 +26,7 @@ async def json_object_to_csv(json_object, destination):
         print("Fatal error occurred while converting json object to csv")
 
 
-async def json_file_to_csv(json_file_path, destination):
+def json_file_to_csv(json_file_path, destination):
     try:
         with open(json_file_path) as file:
             data = pd.read_json(file)

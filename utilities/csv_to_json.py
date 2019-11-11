@@ -3,7 +3,7 @@ import json
 import pandas as pd
 
 
-async def to_json_file(csv_file_path="", destination=""):
+def to_json_file(csv_file_path="", destination=""):
     try:
         with open(csv_file_path) as file:
             data = pd.read_csv(file)
@@ -14,7 +14,7 @@ async def to_json_file(csv_file_path="", destination=""):
         print("Fatal error occurred while converting csv file to json")
 
 
-async def to_json(csv_file_path=""):
+def to_json(csv_file_path=""):
     try:
         with open(csv_file_path) as file:
             reader = csv.DictReader(file)
