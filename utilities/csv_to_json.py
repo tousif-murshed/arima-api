@@ -23,6 +23,6 @@ async def to_json(csv_file_path=""):
     except IOError:
         print("Failed to convert csv file to json object")
         return []
-    except :
+    except:
         print("Fatal error occurred while converting csv file to json")
         return []

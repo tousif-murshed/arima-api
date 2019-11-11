@@ -26,4 +26,5 @@ async def forecast():
         os.remove(csv_path)
 
 
-app.run(port=5000)
+if __name__ == "__main__":
+    app.run(port=5000)
