@@ -12,6 +12,7 @@ def create_temp():
     try:
         cwd = os.getcwd()
         os.mkdir("{}/tmp".format(cwd))
+        print(os.environ["TEST"])
     except IOError:
         print("Unable to create tmp directory")
 
