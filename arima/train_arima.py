@@ -9,7 +9,7 @@ def fetch_training_set(training_data_path):
         db = client.history
         training_set = db.training_set
         data = list(data for data in training_set.find())
-        df = pd.DataFrame(data)
+        df = pd.DataFrame(data, columns=['date', 'unitSold'])
         df.to_csv(training_data_path, index=False)
     except Exception as e:
         print("Unable to fetch training data {}".format(e))

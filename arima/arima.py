@@ -23,27 +23,12 @@ from pmdarima import auto_arima
 
 
 class Arima:
-    start_p = 0
-    start_q = 0
-    max_p = 3
-    max_q = 3
-    m = 7
-    start_P = 0
-    seasonal = True
-    d = 0
-    D = 0
-    trace = True
-    error_action = 'ignore'
-    suppress_warnings = True
-    stepwise = True
 
     def __init__(self, data_set_path):
-        data_set = pd.read_csv(data_set_path, index_col=0, usecols=['date', 'unitSold'])
+        data_set = pd.read_csv(data_set_path, index_col=0)
         data_set.index = pd.to_datetime(data_set.index)
-        data_set.to_csv('./tmp/test.csv')
-        self.model = auto_arima(data_set, self.start_p, self.start_q, self.max_p, self.max_q, self.m, self.start_P,
-                                self.seasonal, self.d, self.D, self.trace, self.error_action, self.suppress_warnings,
-                                self.stepwise)
+        self.model = auto_arima(data_set, start_p=0, start_q=0, max_p=3, max_q=3, m=7, start_P=0, seasonal=True,
+                                d=0, D=0, trace=True, error_action='ignore', suppress_warnings=True, stepwise=True)
         print('Arima successfully initialized')
 
     def forecast(self, history_data, history_start_date, history_end_date, forecast_start_date,
@@ -56,5 +41,5 @@ class Arima:
             forecast_date_range = pd.date_range(start=forecast_start_date, periods=number_of_days)
             return zip(forecast_date_range, forecast_data)
         except Exception as e:
-            print("Error while forcasting -> {}".format(e))
+            print("Error while forecasting -> {}".format(e))
             return []
