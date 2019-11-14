@@ -1,6 +1,5 @@
 import os
 from flask import Flask, request, jsonify
-
 from arima import arima
 from arima import train_arima
 from utilities import json_to_csv
