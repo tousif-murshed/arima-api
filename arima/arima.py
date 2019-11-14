@@ -31,14 +31,16 @@ class Arima:
                                 d=0, D=0, trace=True, error_action='ignore', suppress_warnings=True, stepwise=True)
         print('Arima successfully initialized')
 
-    def forecast(self, history_data, history_start_date, history_end_date, forecast_start_date,
+    def forecast(self, history_data_path, history_start_date, history_end_date, forecast_start_date,
                  forecast_number_of_weeks):
         try:
+            history_data = pd.read_csv(history_data_path, index_col=0, usecols=['date', 'unitSold'])
+            history_data.index = pd.to_datetime(history_data.index)
             training_model = history_data.loc[history_start_date:history_end_date]
             self.model.fit(training_model)
-            forecast_data = self.model.predict(forecast_number_of_weeks)
-            number_of_days = forecast_number_of_weeks * 7
-            forecast_date_range = pd.date_range(start=forecast_start_date, periods=number_of_days)
+            number_of_days = int(forecast_number_of_weeks) * 7
+            forecast_data = [int(fct) for fct in self.model.predict(number_of_days)]
+            forecast_date_range = [date.strftime('%Y-%m-%d') for date in pd.date_range(start=forecast_start_date, periods=number_of_days)]
             return zip(forecast_date_range, forecast_data)
         except Exception as e:
             print("Error while forecasting -> {}".format(e))

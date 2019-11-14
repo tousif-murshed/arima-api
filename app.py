@@ -8,6 +8,7 @@ from arima import arima
 app = Flask(__name__)
 csv_path = "./tmp/data.csv"
 training_data_path = './tmp/training_data.csv'
+arima_instance = None
 
 
 @app.route("/")
@@ -21,11 +22,15 @@ def forecast():
         request_data = request.get_json(silent=True)
         if request_data:
             try:
-                json_to_csv.to_csv(json_object=request_data, destination=csv_path)
-                data = csv_to_json.to_json(csv_path)
-                return data, 200
-            except:
-                return jsonify({"code": 500, "message": "unable to process history data"}), 500
+                json_to_csv.to_csv(json_object=request_data.get('history'), destination=csv_path)
+                forecast_data = arima_instance.forecast(csv_path, request_data.get('historyStartDate'),
+                                                        request_data.get('historyEndDate'),
+                                                        request_data.get('forecastStartDate'),
+                                                        request_data.get('forecastNumberOfWeeks'))
+                response = [{"date": a, "unitSold": b} for (a, b) in forecast_data]
+                return jsonify(response), 200
+            except Exception as e:
+                return jsonify({"code": 500, "message": "unable to process history data -> {}".format(e)}), 500
             finally:
                 os.remove(csv_path)
         else:
@@ -45,12 +50,12 @@ def create_temp():
 def initialize_arima():
     try:
         train_arima.fetch_training_set(training_data_path)
-        arima.Arima(data_set_path=training_data_path)
+        return arima.Arima(data_set_path=training_data_path)
     except Exception as e:
         print('Error while initializing arima {}'.format(e))
 
 
 if __name__ == "__main__":
     create_temp()
-    initialize_arima()
+    arima_instance = initialize_arima()
     app.run(port=5000)
