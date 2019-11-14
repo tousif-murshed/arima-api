@@ -1,9 +1,9 @@
-from flask import Flask, request, jsonify
-from utilities import json_to_csv
-from utilities import csv_to_json
 import os
-from arima import train_arima
+from flask import Flask, request, jsonify
+
 from arima import arima
+from arima import train_arima
+from utilities import json_to_csv
 
 app = Flask(__name__)
 csv_path = "./tmp/data.csv"
