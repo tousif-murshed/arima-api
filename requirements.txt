@@ -1,4 +1,5 @@
 pandas
 pmdarima
+dnspython
 Flask
 uwsgi
