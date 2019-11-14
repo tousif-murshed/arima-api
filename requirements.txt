@@ -3,3 +3,4 @@ pmdarima
 dnspython
 Flask
 uwsgi
+pymongo
