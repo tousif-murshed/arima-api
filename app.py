@@ -9,11 +9,6 @@ csv_path = "./tmp/data.csv"
 training_data_path = './tmp/training_data.csv'
 arima_instance = None
 
-@app.before_first_request()
-def initialize_app():
-    create_temp()
-    initialize_arima()
-
 
 @app.route("/")
 def health_check():
@@ -60,6 +55,6 @@ def initialize_arima():
 
 
 if __name__ == "__main__":
-    # create_temp()
-    # arima_instance = initialize_arima()
+    create_temp()
+    arima_instance = initialize_arima()
     app.run(port=5000)
