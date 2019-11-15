@@ -7,7 +7,28 @@ from utilities import json_to_csv
 app = Flask(__name__)
 csv_path = "./tmp/data.csv"
 training_data_path = './tmp/training_data.csv'
-arima_instance = None
+
+
+def create_temp():
+    try:
+        cwd = os.getcwd()
+        os.mkdir("{}/tmp".format(cwd))
+    except OSError as err:
+        print("Unable to create tmp directory -> {}".format(err))
+
+
+create_temp()
+
+
+def initialize_arima():
+    try:
+        train_arima.fetch_training_set(training_data_path)
+        return arima.Arima(data_set_path=training_data_path)
+    except Exception as e:
+        print('Error while initializing arima {}'.format(e))
+
+
+arima_instance = initialize_arima()
 
 
 @app.route("/")
@@ -37,29 +58,6 @@ def forecast():
     except:
         return jsonify({"code": 500, "message": "unable to get forecast data"}), 500
 
-
-def create_temp():
-    try:
-        cwd = os.getcwd()
-        os.mkdir("{}/tmp".format(cwd))
-    except OSError as err:
-        print("Unable to create tmp directory -> {}".format(err))
-
-
-def initialize_arima():
-    try:
-        train_arima.fetch_training_set(training_data_path)
-        return arima.Arima(data_set_path=training_data_path)
-    except Exception as e:
-        print('Error while initializing arima {}'.format(e))
-
-
-def initialize_app(a_i):
-    create_temp()
-    a_i = initialize_arima()
-
-
-initialize_app(arima_instance)
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
