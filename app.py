@@ -54,7 +54,12 @@ def initialize_arima():
         print('Error while initializing arima {}'.format(e))
 
 
-if __name__ == "__main__":
+def initialize_app(a_i):
     create_temp()
-    arima_instance = initialize_arima()
+    a_i = initialize_arima()
+
+
+initialize_app(arima_instance)
+
+if __name__ == "__main__":
     app.run(port=5000, debug=True)
