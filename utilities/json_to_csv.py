@@ -22,8 +22,8 @@ def json_object_to_csv(json_object, destination):
                 writer.writerow(data)
     except IOError:
         print("Failed to convert json object to csv")
-    except:
-        print("Fatal error occurred while converting json object to csv")
+    except Exception as e:
+        print("Fatal error occurred while converting json object to csv -> {}".format(e))
 
 
 def json_file_to_csv(json_file_path, destination):
