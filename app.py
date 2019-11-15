@@ -57,4 +57,4 @@ def initialize_arima():
 if __name__ == "__main__":
     create_temp()
     arima_instance = initialize_arima()
-    app.run(port=5000)
+    app.run(port=5000, debug=True)
